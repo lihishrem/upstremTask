@@ -13,6 +13,7 @@ import {
   BrowserRouter as Router,
   Routes, Route
 } from "react-router-dom";
+import { Back } from "./Components/Back";
 
 
 function App() {
@@ -29,10 +30,15 @@ function App() {
       <Router>
          <Paper style={{width:"100vw", height:"100vh"}}>
            <Grid container spacing={3}>
-             <Grid item xs={12}>
-                <WbSunnyIcon/>
+             <Grid item xs={12} container>
+               <Grid item xs={11}>
+                 <WbSunnyIcon/>
                 <Switch checked={darkMode} onChange={()=> setDarkMode(!darkMode)}/>
                 <DarkModeIcon/>
+               </Grid>
+               <Grid item xs={1}>
+                 <Back/>
+               </Grid>
              </Grid>
             <Grid item xs={12} container>
               <DrawerComp></DrawerComp>

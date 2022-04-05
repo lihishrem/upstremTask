@@ -13,9 +13,9 @@ function Reservations() {
     const savedGuests = useSelector(state=>state);
 
     //gets the saved guest from the store
-   useEffect(() => {
+    useEffect(() => {
         setGuests([...savedGuests]);
-   }, []);
+    }, []);
 
     //whenever the last guest is changed, checks if he is ready and updates the state
     useEffect(() => {
