@@ -2,23 +2,31 @@ import { Button, Grid } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import Guest from './Guest';
 import { v4 as uuidv4 } from 'uuid';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Reservations() {
     // a state that represents all the guests
     const [guests, setGuests] = useState([{guestNum: uuidv4(),first: "",main: "",dessert: ""}]);
     // a state thet represent if the last guest is ready (we can add new guest only if the last guest is ready)
     const [canAddNewGuest, setCanAddNewGuest] = useState(false);
-   
+    const dispatch = useDispatch();
+    const savedGuests = useSelector(state=>state);
+
+    //gets the saved guest from the store
+   useEffect(() => {
+        setGuests([...savedGuests]);
+   }, []);
+
     //whenever the last guest is changed, checks if he is ready and updates the state
     useEffect(() => {
         let lastGuest = guests[guests.length-1];
-        if(lastGuest.dessert !== ""){
+        if(lastGuest?.dessert !== ""){
             setCanAddNewGuest(true)
         }
         else{
             setCanAddNewGuest(false)
         }
-    }, [guests[guests.length-1]].dessert);
+    }, [guests[guests.length-1]]?.dessert);
 
    
     /**
@@ -27,9 +35,7 @@ function Reservations() {
      * @param {*} guestId the id of the guest to delete
      */
     const handleDelete = (guestId) =>{
-        console.log(guestId);
         let updatedGuests = guests.filter((guest)=> guest.guestNum !== guestId );
-        console.log(updatedGuests);
         setGuests(updatedGuests);
     }
 
@@ -53,16 +59,21 @@ function Reservations() {
         const tempGuest = [...guests];
         let guest = tempGuest[index];
         //whenever the user updates a guest input, the next steps will be initialize
-        if(newGuest.name=="first"){
+        if(newGuest.name === "first"){
             guest.main = "";
             guest.dessert=""
         }
-        else if(newGuest.name=="main"){
+        else if(newGuest.name === "main"){
             guest.dessert=""
         }
         guest[newGuest.name] = newGuest.value; 
         tempGuest[index] = guest;
         setGuests(tempGuest);
+    }
+
+    // saved the guest list in the global store
+    const handleSave = () =>{
+        dispatch({type:"Update_Guests", payload: guests})
     }
 
     return (
@@ -75,6 +86,7 @@ function Reservations() {
             }
             <Grid item xs={12} container justifyContent="center">
                 {canAddNewGuest && <Button variant="contained" color="primary" onClick={handleAdd}> Add Guest </Button> } 
+                {canAddNewGuest && guests.length > 0 && <Button variant="contained" color="primary" onClick={handleSave}> Save Guests </Button> } 
             </Grid>
         </Grid>
     );

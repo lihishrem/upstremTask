@@ -1,4 +1,3 @@
-import React ,{ useEffect }from 'react';
 import { Button, Grid, Typography } from '@material-ui/core';
 import { Autocomplete, FormControl, TextField } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -32,7 +31,7 @@ function Guest(props) {
                             }} />} />
                     </Grid>
                     <Grid item xs={12} sm={2}>
-                        {props.guest.first != "" && 
+                        {props.guest.first !== "" && 
                         <Autocomplete
                                 disableClearable
                                 id="combo-box-main"
@@ -49,7 +48,7 @@ function Guest(props) {
                             }
                     </Grid>
                     <Grid item xs={12} sm={2}>
-                        {props.guest.main && 
+                        {props.guest.main !== "" && 
                         <Autocomplete
                                 disableClearable
                                 id="combo-box-dessert"

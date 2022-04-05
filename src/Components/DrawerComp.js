@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Drawer, Grid, List, ListItem,
-  ListItemIcon, ListItemText, Paper, Switch
+  ListItemIcon, ListItemText
 } from "@material-ui/core";
 
 import { Link } from "react-router-dom";
